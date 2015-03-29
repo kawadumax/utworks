@@ -15,7 +15,6 @@
 cronJob = require('cron').CronJob
 
 JOBS = {}
-UTS = {}
 
 createNewJob = (robot, pattern, user, message) ->
   id = Math.floor(Math.random() * 1000000) while !id? || JOBS[id]
@@ -24,7 +23,7 @@ createNewJob = (robot, pattern, user, message) ->
   id
 
 createNextUT = (robot, pattern, user, message) ->
-  id = Math.floor(Math.random() * 1000000) while !id? || UTS[id]
+  id = Math.floor(Math.random() * 1000000) while !id? || JOBS[id]
   job = registerNewJob robot, id, pattern, user, message
   robot.brain.data.cronjob[id] = job.serialize()
   id
@@ -66,8 +65,11 @@ handleNextUT = (robot, msg, month, day, hour) ->
     robot.brain.nextDay = day
     robot.brain.nextTime = hour
     previousDay = day - 1
-    pattern = "0 0 #{hour} #{previousDay} #{month} *"
-    id = createNextUT robot, pattern, msg.message.user, "明日はUTだよ！"
+    previousHour = hour - 1
+    firstPattern = "0 0 #{hour} #{previousDay} #{month} *"
+    secondPattern = "0 0 #{previousHour} #{day} #{month} *"
+    id = createNextUT robot, firstPattern, msg.message.user, "明日はUTだよ！"
+    id = createNextUT robot, secondPattern, msg.message.user, " 1時間後にUTだよ！"
     msg.send "#{robot.brain.nextMonth}/#{robot.brain.nextDay}の#{robot.brain.nextTime}時が次のUTだよ！"
   catch error
     msg.send "Error caught parsing crontab pattern: #{error}. See http://crontab.org/ for the syntax"
