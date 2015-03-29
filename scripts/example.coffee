@@ -9,11 +9,9 @@
 #   These are from the scripting documentation: https://github.com/github/hubot/blob/master/docs/scripting.md
 
 module.exports = (robot) ->
-  robot.respond /PING$/i, (msg) ->
-    msg.send "なんのようだなっしー！！！！"
 
-  # robot.hear /badger/i, (msg) ->
-  #   msg.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
+  # robot.hear /どうも/, (msg) ->
+  #   msg.send "ちょりっす"
   #
   # robot.respond /open the (.*) doors/i, (msg) ->
   #   doorType = msg.match[1]
@@ -91,18 +89,18 @@ module.exports = (robot) ->
   #   if msg?
   #     msg.reply "DOES NOT COMPUTE"
   #
-  robot.respond /have a soda/i, (msg) ->
-    # Get number of sodas had (coerced to a number).
-    sodasHad = robot.brain.get('totalSodas') * 1 or 0
+  # robot.respond /have a soda/i, (msg) ->
+  #   # Get number of sodas had (coerced to a number).
+  #   sodasHad = robot.brain.get('totalSodas') * 1 or 0
   
-    if sodasHad > 4
-      msg.reply "I'm too fizzy.."
+  #   if sodasHad > 4
+  #     msg.reply "I'm too fizzy.."
   
-    else
-      msg.reply 'Sure!'
+  #   else
+  #     msg.reply 'Sure!'
   
-      robot.brain.set 'totalSodas', sodasHad+1
-  #
-  robot.respond /sleep it off/i, (msg) ->
-    robot.brain.set 'totalSodas', 0
-    robot.respond 'zzzzz'
+  #     robot.brain.set 'totalSodas', sodasHad+1
+  # #
+  # robot.respond /sleep it off/i, (msg) ->
+  #   robot.brain.set 'totalSodas', 0
+  #   robot.respond 'zzzzz'
